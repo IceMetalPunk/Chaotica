@@ -12,15 +12,13 @@ public class ChaoticaBlockBase extends Block {
 
 	public ChaoticaBlockBase(String name, Material materialIn) {
 		super(materialIn);
-		this.setUnlocalizedName(name).setRegistryName(new ResourceLocation(Chaotica.MODID, name))
-				.setCreativeTab(Chaotica.tab);
+		this.setUnlocalizedName(name).setRegistryName(new ResourceLocation(Chaotica.MODID, name)).setCreativeTab(Chaotica.tab);
 	}
 
 	protected void register() {
 		GameRegistry.register(this);
 		if (this instanceof ChaoticaTEBlock) {
-			GameRegistry.registerTileEntity(((ChaoticaTEBlock) this).getTileEntityClass(),
-					((ChaoticaTEBlock) this).getTileEntityName());
+			GameRegistry.registerTileEntity(((ChaoticaTEBlock) this).getTileEntityClass(), ((ChaoticaTEBlock) this).getTileEntityName());
 		}
 
 		String[] oreDict = this.getOreDict();

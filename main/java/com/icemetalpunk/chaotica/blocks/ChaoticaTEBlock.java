@@ -1,11 +1,11 @@
 package com.icemetalpunk.chaotica.blocks;
 
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public abstract class ChaoticaTEBlock extends ChaoticaBlockBase implements ITileEntityProvider {
+public abstract class ChaoticaTEBlock extends ChaoticaBlockBase {
 
 	public ChaoticaTEBlock(String name, Material materialIn) {
 		super(name, materialIn);
@@ -17,10 +17,15 @@ public abstract class ChaoticaTEBlock extends ChaoticaBlockBase implements ITile
 
 	public abstract String getTileEntityName();
 
+	@Override
+	public boolean hasTileEntity(IBlockState state) {
+		return true;
+	}
+
 	// Generic createNewTileEntity so only the getTileEntityClass needs to be
 	// specified.
 	@Override
-	public TileEntity createNewTileEntity(World world, int meta) {
+	public TileEntity createTileEntity(World world, IBlockState state) {
 		try {
 			return this.getTileEntityClass().newInstance();
 		}
