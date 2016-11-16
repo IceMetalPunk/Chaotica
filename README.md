@@ -1,7 +1,7 @@
-#Chaotica
-##Use the magic of chaos to shape your world!
-####A Mod for Minecraft 1.10.2
-
+<h1>Chaotica</h1>
+<h2>Use the magic of chaos to shape your world!</h2>
+<h4>A Mod for Minecraft 1.10.2</h4>
+<hr />
 Chaotica is what I like to call a "magitech" mod: it's themed around magic, but it functions like tech.
 In Chaotica, there isn't much in the way of electricity generation or Redstone Flux. Instead, you power your devices using liquid Chaos. Of course, chaos is, by definition, unpredictable, so virutally every device has chaotic risks associated with it, which can be mitigated through the use of upgrades called Chaotic Cores.
 
