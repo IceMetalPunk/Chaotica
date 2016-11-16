@@ -1,0 +1,7 @@
+{
+	"condense_chaos": {
+		"category": "block",
+		"subtitle": "chaotica.subtitles.condense_chaos",
+		"sounds": ["chaotica:sfx/condense_chaos"]
+	}
+}

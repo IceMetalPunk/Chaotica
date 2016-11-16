@@ -1,0 +1,16 @@
+[
+{
+  "modid": "chaotica",
+  "name": "Chaotica",
+  "description": "Use the magic of chaos to shape your world.",
+  "version": "1.0",
+  "mcversion": "1.10.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["IceMetalPunk"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
