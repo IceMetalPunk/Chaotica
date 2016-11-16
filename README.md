@@ -12,7 +12,7 @@ Good luck, my fellow Chaomancers; go create the world you've always wanted in yo
 
 **********************
 
-Current table of chaos amounta generated for each pair of dissimilar blocks:
+Current table of chaos amounts generated for each pair of dissimilar blocks:
 
 |First Block|Second Block|Chaos Generated|
 |:---------:|:----------:|--------------:|
