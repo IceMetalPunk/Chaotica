@@ -9,3 +9,20 @@ There are many blocks and items added by Chaotica, but the basic path is simple:
 A full list of the mod's additions, along with far more detail, will be available as development progresses, but you can check the To Do list in the comments of the main Chaotica.java file for information about what's planned (all plans are subject to change later, of course).
 
 Good luck, my fellow Chaomancers; go create the world you've always wanted in your most chaotic dreams!
+
+**********************
+
+Current table of chaos amounta generated for each pair of dissimilar blocks:
+
+|First Block|Second Block|Chaos Generated|
+|:---------:|:----------:|--------------:|
+|Lava|Water|2|
+|Magma|Ice|5|
+|Fire|Ice|10|
+|Magma|Packed Ice|10|
+|Fire|Packed Ice|15|
+|Lava|Ice|15|
+|Leaves|Bone Block|17
+|Wool|Anvil|20|
+|Lava|Packed Ice|20|
+|Slime Block|Obsidian|30|

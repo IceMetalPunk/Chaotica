@@ -31,6 +31,9 @@ public class ItemBlockChaoticCondenser extends ChaoticaItemBlockBase {
 			}
 			tooltip.add(ChatFormatting.AQUA + "Amount Filled: " + itemFilledAmount + ChatFormatting.RESET);
 		}
+		else {
+			tooltip.add(ChatFormatting.GRAY + "Press SHIFT for more info." + ChatFormatting.RESET);
+		}
 	}
 
 }
