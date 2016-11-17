@@ -1,15 +1,16 @@
 package com.icemetalpunk.chaotica.gui;
 
-import com.icemetalpunk.chaotica.tileentities.TileEntityChaoticCondenser;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.inventory.IInventory;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 public class GuiCondenser extends ChaoticaUIBase {
 
-	public GuiCondenser(IInventory playerInv, IInventory tile) {
+	public GuiCondenser(IInventory playerInv, TileEntity tile) {
 		super(playerInv, tile, "container/chaos_condenser");
 	}
 
@@ -18,12 +19,11 @@ public class GuiCondenser extends ChaoticaUIBase {
 
 		/* FIXME: Implement proper fluid tank rendering. */
 		int left = 168, top = 30, right = 186, bottom = 90;
-		IFluidTankProperties[] tanks = ((TileEntityChaoticCondenser) this.tileEntity).getTankProperties();
-		IFluidTankProperties tank = tanks[0];
+		FluidTank tank = (FluidTank) (((ICapabilityProvider) this.tileEntity).getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null));
 		int color = 0xFFFFFFFF, amount = 0;
-		if (tank.getContents() != null && tank.getContents().getFluid() != null) {
-			color = tank.getContents().getFluid().getColor();
-			amount = tank.getContents().amount;
+		if (tank.getFluid().getFluid() != null) {
+			color = tank.getFluid().getFluid().getColor();
+			amount = tank.getFluidAmount();
 		}
 
 		// Render fluid amount in text

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -33,9 +32,9 @@ public class ChaoticaGuiHandler implements IGuiHandler {
 		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 		if (list.containsKey(Integer.valueOf(ID))) {
 			try {
-				return ((Class) (list.get(Integer.valueOf(ID)))).getConstructors()[0].newInstance(player.inventory,
-						(IInventory) tile);
-			} catch (Exception e) {
+				return ((Class) (list.get(Integer.valueOf(ID)))).getConstructors()[0].newInstance(player.inventory, tile);
+			}
+			catch (Exception e) {
 				e.printStackTrace();
 				return null;
 			}

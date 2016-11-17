@@ -3,6 +3,8 @@ package com.icemetalpunk.chaotica.tileentities;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import com.icemetalpunk.chaotica.Chaotica;
 import com.icemetalpunk.chaotica.ChaoticaUtils;
 import com.icemetalpunk.chaotica.fluids.FluidTankChaos;
@@ -12,28 +14,46 @@ import com.icemetalpunk.chaotica.sounds.ChaoticaSoundRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
-public class TileEntityChaoticCondenser extends TileEntity implements IFluidHandler, ITickable, IInventory {
+public class TileEntityChaoticCondenser extends TileEntity implements ICapabilityProvider, ITickable {
 
 	protected Fluid fluid = Chaotica.fluids.CORROSIVE_CHAOS;
 	protected int capacity = 5 * Fluid.BUCKET_VOLUME;
 	protected FluidTankChaos tank = new FluidTankChaos(this.capacity);
 	protected int countdown = 40;
 	protected int maxCountdown = 60; // Max amount it resets to
+
+	public TileEntityChaoticCondenser() {
+		this.tank.setTileEntity(this);
+	}
+
+	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+			return true;
+		}
+		return super.hasCapability(capability, facing);
+	}
+
+	@Override
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this.tank);
+		}
+		return super.getCapability(capability, facing);
+	}
 
 	// Ticks until the next check for blocks to convert to chaos
 	public int getCountdown() {
@@ -43,12 +63,6 @@ public class TileEntityChaoticCondenser extends TileEntity implements IFluidHand
 	public int getMaxCountdown() {
 		return this.maxCountdown;
 	}
-
-	@Override
-	public IFluidTankProperties[] getTankProperties() {
-		IFluidTankProperties[] ret = new IFluidTankProperties[] { new FluidTankPropertiesWrapper(tank) };
-		return ret;
-	};
 
 	public Fluid getFluid() {
 		if (tank.getFluid() == null) {
@@ -84,21 +98,6 @@ public class TileEntityChaoticCondenser extends TileEntity implements IFluidHand
 
 	public int fill(int amount, boolean doFill) {
 		return this.tank.fill(new FluidStack(this.fluid, amount), doFill);
-	}
-
-	@Override
-	public int fill(FluidStack resource, boolean doFill) {
-		return this.tank.fill(resource, doFill);
-	}
-
-	@Override
-	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		return this.tank.drain(resource, doDrain);
-	}
-
-	@Override
-	public FluidStack drain(int maxDrain, boolean doDrain) {
-		return this.tank.drain(maxDrain, doDrain);
 	}
 
 	@Override
@@ -178,83 +177,6 @@ public class TileEntityChaoticCondenser extends TileEntity implements IFluidHand
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
 		this.readFromNBT(packet.getNbtCompound());
-	}
-
-	/* BEGIN IINVENTORY METHODS BELOW */
-
-	@Override
-	public String getName() {
-		return "container.ChaoticCondenser";
-	}
-
-	@Override
-	public boolean hasCustomName() {
-		return false;
-	}
-
-	@Override
-	public int getSizeInventory() {
-		return 0;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int index) {
-		return null;
-	}
-
-	@Override
-	public ItemStack decrStackSize(int index, int count) {
-		return null;
-	}
-
-	@Override
-	public ItemStack removeStackFromSlot(int index) {
-		return null;
-	}
-
-	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 0;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		return true;
-	}
-
-	@Override
-	public void openInventory(EntityPlayer player) {
-	}
-
-	@Override
-	public void closeInventory(EntityPlayer player) {
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int index, ItemStack stack) {
-		return false;
-	}
-
-	@Override
-	public int getField(int id) {
-		return 0;
-	}
-
-	@Override
-	public void setField(int id, int value) {
-	}
-
-	@Override
-	public int getFieldCount() {
-		return 0;
-	}
-
-	@Override
-	public void clear() {
 	}
 
 }

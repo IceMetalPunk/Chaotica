@@ -5,14 +5,16 @@ import com.icemetalpunk.chaotica.Chaotica;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 public class ChaoticaUIBase extends GuiContainer {
 
 	protected ResourceLocation texture;
-	protected IInventory tileEntity;
+	protected TileEntity tileEntity;
+	protected IInventory tileInv = null;
 
-	public ChaoticaUIBase(IInventory playerInv, IInventory tile, String textureName) {
+	public ChaoticaUIBase(IInventory playerInv, TileEntity tile, String textureName) {
 		super(new ContainerCondenser(playerInv, tile));
 		this.tileEntity = tile;
 		this.texture = new ResourceLocation(Chaotica.MODID, "textures/gui/" + textureName + ".png");

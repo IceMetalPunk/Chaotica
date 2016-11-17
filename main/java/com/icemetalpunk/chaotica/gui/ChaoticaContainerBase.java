@@ -5,16 +5,22 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 
 public class ChaoticaContainerBase extends Container {
 
-	protected IInventory tileEntity;
+	protected TileEntity tileEntity;
+	protected IInventory tileInv = null;
 	protected int firstPlayerSlot;
 
-	public ChaoticaContainerBase(IInventory playerInv, IInventory tile, int blockInvX, int blockInvY, int playerInvX,
+	public ChaoticaContainerBase(IInventory playerInv, TileEntity tile, int blockInvX, int blockInvY, int playerInvX,
 			int playerInvY) {
 		this.tileEntity = tile;
-		this.firstPlayerSlot = tile.getSizeInventory();
+		this.firstPlayerSlot = 0;
+		if (tile instanceof IInventory) {
+			this.tileInv = (IInventory) tile;
+			this.firstPlayerSlot = this.tileInv.getSizeInventory();
+		}
 
 		/*
 		 * For the sake of clarity, I'm defining some numbers to avoid confusing
@@ -26,8 +32,10 @@ public class ChaoticaContainerBase extends Container {
 		int hotbarSize = 9;
 
 		// Block inventory
-		for (int slotInd = 0; slotInd < tile.getSizeInventory(); ++slotInd) {
-			this.addSlotToContainer(new Slot(tile, slotInd, blockInvX + slotInd * slotWidth, blockInvY));
+		if (this.tileInv != null) {
+			for (int slotInd = 0; slotInd < tileInv.getSizeInventory(); ++slotInd) {
+				this.addSlotToContainer(new Slot(tileInv, slotInd, blockInvX + slotInd * slotWidth, blockInvY));
+			}
 		}
 
 		// Hotbar inventory
@@ -60,11 +68,11 @@ public class ChaoticaContainerBase extends Container {
 			ret = current.copy();
 
 			// If they shift+click inside the container's slots...
-			if (slotID < this.tileEntity.getSizeInventory()) {
+			if (this.tileInv != null && slotID < this.tileInv.getSizeInventory()) {
 
 				// Try to merge into their inventory, returning null if it's not
 				// possible.
-				if (!this.mergeItemStack(current, this.tileEntity.getSizeInventory(), this.tileEntity.getSizeInventory() + 36, false)) {
+				if (!this.mergeItemStack(current, this.tileInv.getSizeInventory(), this.tileInv.getSizeInventory() + 36, false)) {
 					return null;
 				}
 
@@ -75,19 +83,17 @@ public class ChaoticaContainerBase extends Container {
 			else {
 
 				// Try to merge into the container's slots. If you can't...
-				if (!this.mergeItemStack(current, 0, this.tileEntity.getSizeInventory(), false)) {
+				if (this.tileInv == null || !this.mergeItemStack(current, 0, this.tileInv.getSizeInventory(), false)) {
+
+					// If they shift+clicked in their hotbar, try to merge into
+					if (slotID >= this.firstPlayerSlot && slotID < this.firstPlayerSlot + 9 && !this.mergeItemStack(current, this.firstPlayerSlot + 9, this.firstPlayerSlot + 36, false)) {
+						// the main inventory, returning null if failed.
+						return null;
+					}
 
 					// If they shift+clicked in the main inventory, try to merge
 					// into their hotbar.
-					if (slotID < this.tileEntity.getSizeInventory() + 27) {
-						if (!this.mergeItemStack(current, this.tileEntity.getSizeInventory() + 27, this.tileEntity.getSizeInventory() + 36, false)) {
-							return null;
-						}
-					}
-
-					// If they shift+clicked in their hotbar, try to merge into
-					// the main inventory, returning null if failed.
-					else if (!this.mergeItemStack(current, this.tileEntity.getSizeInventory(), this.tileEntity.getSizeInventory() + 27, false)) {
+					else if (slotID >= this.firstPlayerSlot + 9 && slotID < this.firstPlayerSlot + 36 && !this.mergeItemStack(current, this.firstPlayerSlot, this.firstPlayerSlot + 9, false)) {
 						return null;
 					}
 				}
