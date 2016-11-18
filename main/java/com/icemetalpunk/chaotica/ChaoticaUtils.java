@@ -8,6 +8,14 @@ import net.minecraft.init.Blocks;
 /* A class filled with handy utilities for other classes to use. */
 public class ChaoticaUtils {
 
+	public static int RGBAtoInt(short r, short g, short b, short a) {
+		return ((a << 24) & 0xff000000) | ((r << 16) & 0x00ff0000) | ((g << 8) & 0x0000ff00) | (b & 0x000000ff);
+	}
+
+	public static int RGBAtoInt(short[] col) {
+		return ChaoticaUtils.RGBAtoInt(col[0], col[1], col[2], col[3]);
+	}
+
 	/*
 	 * A simple way of storing pairs of blocks and checking them in an
 	 * order-irrelevant way. Since chaos magic is about dissimilarities, this
@@ -42,7 +50,7 @@ public class ChaoticaUtils {
 
 		// Lava and water can both flow/break infinitely, so make them worthless
 		pairAmounts.put(new BlockPair(Blocks.LAVA, Blocks.WATER), 2);
-		
+
 		pairAmounts.put(new BlockPair(Blocks.PACKED_ICE, Blocks.field_189877_df), 10); // Magma;
 																						// not
 																						// deobfuscated?

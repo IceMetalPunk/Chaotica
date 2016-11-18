@@ -1,6 +1,7 @@
 tile.chaotic_condenser.name=Chaotic Condenser
 item.chaotic_condenser.name=Chaotic Condenser
 container.chaotic_condenser=Chaotic Condenser
+fluid.corrosive_chaos=Corrosive Chaos
 
 itemGroup.chaotica=Chaotica
 

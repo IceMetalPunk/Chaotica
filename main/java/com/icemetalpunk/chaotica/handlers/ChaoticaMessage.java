@@ -58,7 +58,9 @@ public class ChaoticaMessage implements IMessage {
 				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 				World world = player.worldObj;
 				TileEntityChaoticCondenser tileEntity = (TileEntityChaoticCondenser) world.getTileEntity(new BlockPos(message.x, message.y, message.z));
-				tileEntity.setFluidAmount(message.val);
+				if (tileEntity != null) {
+					tileEntity.setFluidAmount(message.val);
+				}
 			}
 			return null;
 		}
