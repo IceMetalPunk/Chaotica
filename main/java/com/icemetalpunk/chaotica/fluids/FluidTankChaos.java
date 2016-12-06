@@ -19,10 +19,13 @@ public class FluidTankChaos extends FluidTank {
 
 		// Get fluid display data
 		int color = 0xFFFFFFFF, amount = 0;
-		Fluid fluid = this.getFluid().getFluid();
-		if (fluid != null) {
-			color = fluid.getColor();
-			amount = this.getFluidAmount();
+		FluidStack fluidStack = this.getFluid();
+		if (fluidStack != null) {
+			Fluid fluid = this.getFluid().getFluid();
+			if (fluid != null) {
+				color = fluid.getColor();
+				amount = this.getFluidAmount();
+			}
 		}
 		top = bottom - (int) (height * (double) amount / (double) this.getCapacity());
 

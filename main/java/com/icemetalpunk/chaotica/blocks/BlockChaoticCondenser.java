@@ -17,8 +17,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-/* TODO: Drop tagged/filled itemstack when harvested */
-
 public class BlockChaoticCondenser extends ChaoticaTEBlock {
 
 	public BlockChaoticCondenser() {

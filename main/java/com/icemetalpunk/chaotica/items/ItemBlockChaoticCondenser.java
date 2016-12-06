@@ -23,8 +23,9 @@ public class ItemBlockChaoticCondenser extends ChaoticaItemBlockBase {
 		tooltip.add("Creates Corrosive Chaos from dissimilarity in the world.");
 		if (GuiScreen.isShiftKeyDown()) {
 			int itemFilledAmount = 0;
-			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("Tank")) {
-				NBTTagCompound tankTag = stack.getTagCompound().getCompoundTag("Tank");
+			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("BlockEntityData")) {
+				NBTTagCompound tag = stack.getTagCompound().getCompoundTag("BlockEntityData");
+				NBTTagCompound tankTag = tag.getCompoundTag("Tank");
 				if (!tankTag.hasKey("Empty")) {
 					itemFilledAmount = tankTag.getInteger("Amount");
 				}
