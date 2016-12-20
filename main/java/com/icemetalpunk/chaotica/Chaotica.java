@@ -48,6 +48,7 @@ package com.icemetalpunk.chaotica;
 import com.icemetalpunk.chaotica.blocks.ChaoticaBlockRegistry;
 import com.icemetalpunk.chaotica.fluids.ChaoticaFluidRegistry;
 import com.icemetalpunk.chaotica.gui.ChaoticaGuiHandler;
+import com.icemetalpunk.chaotica.handlers.ChaoticaEventHandler;
 import com.icemetalpunk.chaotica.handlers.ChaoticaMessage;
 import com.icemetalpunk.chaotica.handlers.ChaoticaMessage.ChaoticaMessageHandler;
 import com.icemetalpunk.chaotica.handlers.ChaoticaPacketHandler;
@@ -57,6 +58,7 @@ import com.icemetalpunk.chaotica.sounds.ChaoticaSoundRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -89,6 +91,8 @@ public class Chaotica {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		NetworkRegistry.INSTANCE.registerGuiHandler(Chaotica.instance, new ChaoticaGuiHandler());
+
+		MinecraftForge.EVENT_BUS.register(new ChaoticaEventHandler());
 
 		// Message registration
 		int messageID = 0;

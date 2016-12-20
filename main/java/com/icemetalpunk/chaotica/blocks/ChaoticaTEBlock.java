@@ -1,16 +1,20 @@
 package com.icemetalpunk.chaotica.blocks;
 
+import java.util.ArrayList;
 import java.util.Random;
+
+import com.google.common.collect.Lists;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public abstract class ChaoticaTEBlock extends ChaoticaBlockBase {
@@ -26,15 +30,19 @@ public abstract class ChaoticaTEBlock extends ChaoticaBlockBase {
 	}
 
 	@Override
-	public void breakBlock(World world, BlockPos pos, IBlockState state) {
-		ItemStack stack = new ItemStack(this, 1, this.getMetaFromState(state));
-		NBTTagCompound tag = new NBTTagCompound();
-		NBTTagCompound teTag = new NBTTagCompound();
-		world.getTileEntity(pos).writeToNBT(teTag);
-		tag.setTag("BlockEntityTag", teTag);
-		stack.setTagCompound(tag);
-		world.spawnEntityInWorld(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack));
-		super.breakBlock(world, pos, state);
+	public final ArrayList<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+		int meta = state.getBlock().getMetaFromState(state);
+		ItemStack ret = new ItemStack(this, 1, meta);
+		NBTTagCompound nbt = new NBTTagCompound();
+		TileEntity te = world.getTileEntity(pos);
+		te.writeToNBT(nbt);
+		ret.setTagCompound(nbt);
+		return Lists.newArrayList(new ItemStack(this, 1, meta));
+	}
+
+	@Override
+	public boolean canHarvestBlock(IBlockAccess world, BlockPos pos, EntityPlayer player) {
+		return true;
 	}
 
 	// When placed, if the item has a tag, set the tile entity's tag

@@ -14,10 +14,9 @@ import com.icemetalpunk.chaotica.sounds.ChaoticaSoundRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
@@ -27,7 +26,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
-public class TileEntityChaoticCondenser extends TileEntity implements ICapabilityProvider, ITickable {
+public class TileEntityChaoticCondenser extends ChaoticaTEBase implements ICapabilityProvider, ITickable {
 
 	protected Fluid fluid = Chaotica.fluids.CORROSIVE_CHAOS;
 	protected int capacity = 5 * Fluid.BUCKET_VOLUME;
@@ -152,31 +151,22 @@ public class TileEntityChaoticCondenser extends TileEntity implements ICapabilit
 		}
 	}
 
+	// If shouldHarvest() returns true, this will drop a fully tagged item
+	// instead of an empty one.
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound tag = new NBTTagCompound();
-		this.writeToNBT(tag);
-
-		IBlockState state = this.worldObj.getBlockState(this.pos);
-		Block block = state.getBlock();
-		int metadata = block.getMetaFromState(state);
-
-		return new SPacketUpdateTileEntity(this.pos, metadata, tag);
+	public boolean shouldHarvest() {
+		return true;
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag() {
-		return this.writeToNBT(new NBTTagCompound());
-	}
-
-	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
-		this.readFromNBT(tag);
-	}
-
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-		this.readFromNBT(packet.getNbtCompound());
+	public ItemStack getHarvest() {
+		Block block = this.worldObj.getBlockState(this.pos).getBlock();
+		Item item = Item.getItemFromBlock(block);
+		ItemStack stack = new ItemStack(item, 1);
+		NBTTagCompound nbt = new NBTTagCompound();
+		this.writeToNBT(nbt);
+		stack.setTagCompound(nbt);
+		return stack;
 	}
 
 }
