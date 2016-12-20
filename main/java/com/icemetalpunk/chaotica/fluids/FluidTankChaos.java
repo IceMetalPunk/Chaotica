@@ -48,6 +48,8 @@ public class FluidTankChaos extends FluidTank {
 		// If not texture found for the fluid, draw based on registered color.
 		if (tex == null) {
 			gui.drawRect(left, top, right, bottom, color);
+			
+			// Debugging output
 			if (gui.isShiftKeyDown()) {
 				FontRenderer fontRender = Minecraft.getMinecraft().fontRendererObj;
 				String title = "Col; Left: " + left + "; Top: " + top + ", Width: " + width + "; rHeight: " + renderHeight + "; zLev: " + zLevel;
@@ -56,6 +58,8 @@ public class FluidTankChaos extends FluidTank {
 		}
 		else {
 			// Or draw the texture.
+			
+			// Debugging output.
 			if (gui.isShiftKeyDown()) {
 				FontRenderer fontRender = Minecraft.getMinecraft().fontRendererObj;
 				String title = "Tex: " + tex + "; Left: " + left + "; Top: " + top + ", Width: " + width + "; rHeight: " + renderHeight + "; zLev: " + zLevel;
