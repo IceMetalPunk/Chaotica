@@ -1,7 +1,6 @@
 package com.icemetalpunk.chaotica.fluids;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -48,25 +47,9 @@ public class FluidTankChaos extends FluidTank {
 		// If not texture found for the fluid, draw based on registered color.
 		if (tex == null) {
 			gui.drawRect(left, top, right, bottom, color);
-			
-			// Debugging output
-			if (gui.isShiftKeyDown()) {
-				FontRenderer fontRender = Minecraft.getMinecraft().fontRendererObj;
-				String title = "Col; Left: " + left + "; Top: " + top + ", Width: " + width + "; rHeight: " + renderHeight + "; zLev: " + zLevel;
-				fontRender.drawString(title, 0, 5, 0, false);
-			}
 		}
 		else {
 			// Or draw the texture.
-			
-			// Debugging output.
-			if (gui.isShiftKeyDown()) {
-				FontRenderer fontRender = Minecraft.getMinecraft().fontRendererObj;
-				String title = "Tex: " + tex + "; Left: " + left + "; Top: " + top + ", Width: " + width + "; rHeight: " + renderHeight + "; zLev: " + zLevel;
-				fontRender.drawString(title, 0, 5, 0, false);
-			}
-			
-			// FIXME: Fluid is rendering...pink? Why?
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			GlStateManager.disableBlend();
 			Minecraft.getMinecraft().getTextureManager().bindTexture(tex);

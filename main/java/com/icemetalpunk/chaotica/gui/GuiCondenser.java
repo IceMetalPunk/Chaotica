@@ -1,14 +1,18 @@
 package com.icemetalpunk.chaotica.gui;
 
+import org.fusesource.jansi.Ansi.Color;
+
 import com.icemetalpunk.chaotica.fluids.FluidTankChaos;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fml.client.config.GuiUtils;
 
 public class GuiCondenser extends ChaoticaUIBase {
 
@@ -25,7 +29,7 @@ public class GuiCondenser extends ChaoticaUIBase {
 		// Draw container title
 		FontRenderer fontRender = Minecraft.getMinecraft().fontRendererObj;
 		String title = new TextComponentTranslation("container.chaotic_condenser").getUnformattedText();
-		fontRender.drawString(title, this.xSize / 2 - fontRender.getStringWidth(title) / 2, 5, 0, false);
+		fontRender.drawString(title, this.xSize / 2 - fontRender.getStringWidth(title) / 2, 5, 0xFFFFFFFF, false);
 
 		// Get fluid information
 		FluidTankChaos tank = (FluidTankChaos) (((ICapabilityProvider) this.tileEntity).getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null));
@@ -39,7 +43,7 @@ public class GuiCondenser extends ChaoticaUIBase {
 		}
 		// fontRender.drawString("(" + mouseX + ", " + mouseY + ")", 5, 30, 0,
 		// false);
-		fontRender.drawString(amount + " mb", 5, 30, 0, false);
+		fontRender.drawString(amount + " mb", 5, 30, 0xFFFFFFFF, false);
 
 		// Render tank
 		tank.render(this, left, bottom, width, height, this.zLevel);
