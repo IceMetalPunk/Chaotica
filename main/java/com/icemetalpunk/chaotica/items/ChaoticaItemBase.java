@@ -14,8 +14,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ChaoticaItemBase extends Item {
 	public ChaoticaItemBase(String name) {
 		super();
-		this.setUnlocalizedName(name).setRegistryName(new ResourceLocation(Chaotica.MODID, name))
-				.setCreativeTab(Chaotica.tab);
+		this.setUnlocalizedName(name).setRegistryName(new ResourceLocation(Chaotica.MODID, name)).setCreativeTab(Chaotica.tab);
 	}
 
 	protected void register() {

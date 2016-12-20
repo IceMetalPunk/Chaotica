@@ -42,7 +42,7 @@ public class GuiCondenser extends ChaoticaUIBase {
 		fontRender.drawString(amount + " mb", 5, 30, 0, false);
 
 		// Render tank
-		tank.render(this, left, bottom, width, height);
+		tank.render(this, left, bottom, width, height, this.zLevel);
 
 	}
 
