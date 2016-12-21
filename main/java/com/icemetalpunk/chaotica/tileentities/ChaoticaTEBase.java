@@ -31,7 +31,6 @@ public abstract class ChaoticaTEBase extends TileEntity {
 		Block block = state.getBlock();
 		int metadata = block.getMetaFromState(state);
 
-		System.out.println("Pos: " + this.pos + "; Meta: " + metadata + "; State: " + state + "; Tag: " + tag);
 		return new SPacketUpdateTileEntity(this.pos, metadata, tag);
 	}
 

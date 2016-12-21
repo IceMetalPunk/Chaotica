@@ -1,7 +1,6 @@
 package com.icemetalpunk.chaotica.blocks;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import com.google.common.collect.Lists;
 
@@ -9,7 +8,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -24,10 +22,6 @@ public abstract class ChaoticaTEBlock extends ChaoticaBlockBase {
 	}
 
 	// Make sure when the block is dropped, the item retains the TE's data tags
-	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return null;
-	}
 
 	@Override
 	public final ArrayList<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
@@ -35,9 +29,26 @@ public abstract class ChaoticaTEBlock extends ChaoticaBlockBase {
 		ItemStack ret = new ItemStack(this, 1, meta);
 		NBTTagCompound nbt = new NBTTagCompound();
 		TileEntity te = world.getTileEntity(pos);
-		te.writeToNBT(nbt);
+		NBTTagCompound teTag = new NBTTagCompound();
+		te.writeToNBT(teTag);
+		nbt.setTag("BlockEntityTag", teTag);
 		ret.setTagCompound(nbt);
-		return Lists.newArrayList(new ItemStack(this, 1, meta));
+		return Lists.newArrayList(ret);
+	}
+
+	@Override
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player,
+			boolean willHarvest) {
+		if (willHarvest) return true; // If it will harvest, delay deletion of
+										// the block until after getDrops
+		return super.removedByPlayer(state, world, pos, player, willHarvest);
+	}
+
+	@Override
+	public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te,
+			ItemStack tool) {
+		super.harvestBlock(world, player, pos, state, te, tool);
+		world.setBlockToAir(pos);
 	}
 
 	@Override
@@ -46,16 +57,15 @@ public abstract class ChaoticaTEBlock extends ChaoticaBlockBase {
 	}
 
 	// When placed, if the item has a tag, set the tile entity's tag
-	/*
-	 * FIXME: When placed like this, tags are properly set, but tile entity
-	 * fails to update ever after.
-	 */
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
 			ItemStack stack) {
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("BlockEntityTag")) {
 			NBTTagCompound tag = stack.getTagCompound().getCompoundTag("BlockEntityTag");
+			tag.setInteger("x", pos.getX());
+			tag.setInteger("y", pos.getY());
+			tag.setInteger("z", pos.getZ());
 			worldIn.getTileEntity(pos).readFromNBT(tag);
 		}
 	}

@@ -101,7 +101,6 @@ public class TileEntityChaoticCondenser extends ChaoticaTEBase implements ICapab
 
 	@Override
 	public void update() {
-		String[] debug = new String[] { "server", "client" };
 		if (--this.countdown == 0) {
 			this.countdown = this.maxCountdown;
 			if (!this.worldObj.isRemote) {

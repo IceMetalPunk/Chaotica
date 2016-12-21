@@ -1,18 +1,14 @@
 package com.icemetalpunk.chaotica.gui;
 
-import org.fusesource.jansi.Ansi.Color;
-
 import com.icemetalpunk.chaotica.fluids.FluidTankChaos;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fml.client.config.GuiUtils;
 
 public class GuiCondenser extends ChaoticaUIBase {
 
@@ -36,14 +32,7 @@ public class GuiCondenser extends ChaoticaUIBase {
 		int amount = tank.getFluidAmount();
 
 		// Render fluid amount in text
-		// TODO: Make this a tooltip when moused over the rendered tank.
-		if (mouseX >= left - this.guiLeft && mouseY >= bottom - height - this.guiTop && mouseX <= left + width - this.guiLeft && mouseY <= bottom - this.guiTop) {
-			// fontRender.drawString(amount + " mb", mouseX - this.guiLeft,
-			// mouseY - this.guiTop, 0, false);
-		}
-		// fontRender.drawString("(" + mouseX + ", " + mouseY + ")", 5, 30, 0,
-		// false);
-		fontRender.drawString(amount + " mb", 5, 30, 0xFFFFFFFF, false);
+		fontRender.drawString(amount + " mb", left / 2 - fontRender.getStringWidth(amount + " mb") - 2, (bottom - height / 2) / 2, 0xFFFFFFFF, false);
 
 		// Render tank
 		tank.render(this, left, bottom, width, height, this.zLevel);

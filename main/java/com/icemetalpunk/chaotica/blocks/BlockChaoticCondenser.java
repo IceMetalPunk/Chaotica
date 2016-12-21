@@ -1,15 +1,22 @@
 package com.icemetalpunk.chaotica.blocks;
 
+import java.util.Arrays;
+
 import javax.annotation.Nullable;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.icemetalpunk.chaotica.Chaotica;
 import com.icemetalpunk.chaotica.gui.ChaoticaGuiHandler;
 import com.icemetalpunk.chaotica.tileentities.TileEntityChaoticCondenser;
 
+import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -32,6 +39,7 @@ public class BlockChaoticCondenser extends ChaoticaTEBlock {
 		if (!world.isRemote) {
 			player.openGui(Chaotica.instance, ChaoticaGuiHandler.Guis.CONDENSER.ordinal(), world, pos.getX(), pos.getY(), pos.getZ());
 		}
+		
 		return true;
 	}
 
@@ -41,7 +49,7 @@ public class BlockChaoticCondenser extends ChaoticaTEBlock {
 	}
 
 	@Override
-	public String getTileEntityName() {
+	public String getTileEntityName() {		
 		return "ChaoticCondenser";
 	}
 

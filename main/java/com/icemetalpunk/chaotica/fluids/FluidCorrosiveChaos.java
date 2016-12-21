@@ -7,7 +7,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 
 public class FluidCorrosiveChaos extends FluidChaosBase {
 
-	// TODO: Add actual textures for these resource locations.
 	protected static final ResourceLocation stillModel = new ResourceLocation(Chaotica.MODID, "textures/fluids/corrosive_chaos_still.png");
 	protected static final ResourceLocation flowingModel = new ResourceLocation(Chaotica.MODID, "textures/fluids/corrosive_chaos_flowing.png");
 
